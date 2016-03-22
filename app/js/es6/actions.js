@@ -15,4 +15,3 @@ window.addEventListener('keydown', e => {
 window.addEventListener('keyup', e => {
   actions[keyMap[e.keyCode]] = false;
 });
-

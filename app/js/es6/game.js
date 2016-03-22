@@ -11,6 +11,11 @@ export default {
     this.start();
   },
   start() {
-    this.ls.addChild(new Hero(this.ss).el);
+    this.hero = new Hero(this.ss);
+    this.hero.el.set({
+      x: 300,
+      y: 300,
+    });
+    this.ls.addChild(this.hero.el);
   },
 };
