@@ -1,11 +1,11 @@
+import load from './load.js';
+
 const app = {
   init() {
     const stage = new createjs.Stage('game-stage');
-    const queue = new createjs.LoadQueue();
-    queue.loadFile({ src: 'img/spritesheet.json', id: 'ss', type: 'spritesheet' });
-    queue.on('complete', () => {
-      const ss = queue.getResult('ss');
-      stage.addChild(new createjs.Sprite(ss, 'playerShip1_orange'));
+
+    load({ src: 'img/spritesheet.json', id: 'ss', type: 'spritesheet' }).then(queue => {
+      stage.addChild(new createjs.Sprite(queue.getResult('ss'), 'playerShip1_orange.png'));
       stage.update();
     });
   },
