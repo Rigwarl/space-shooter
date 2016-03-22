@@ -1,4 +1,4 @@
-import game from './game.js';
+import * as game from './game.js';
 import load from './load.js';
 
 const stage = new createjs.Stage('game-stage');

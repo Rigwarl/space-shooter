@@ -1,21 +1,22 @@
 import Hero from './elements/hero.js';
 
-export default {
-  init({ stage, ss, cb }) {
-    this.ss = ss;
-    this.cb = cb;
+let ss;
+let cb;
+let stage;
+let ls;
+let hero;
 
-    this.ls = new createjs.Container();
-    stage.addChild(this.ls);
+export function init(args) {
+  ss = args.ss;
+  cb = args.cb;
+  stage = args.stage;
+  ls = new createjs.Container();
 
-    this.start();
-  },
-  start() {
-    this.hero = new Hero(this.ss);
-    this.hero.el.set({
-      x: 300,
-      y: 300,
-    });
-    this.ls.addChild(this.hero.el);
-  },
-};
+  stage.addChild(ls);
+  start();
+}
+
+function start() {
+  hero = new Hero({ ss, x: 400, y: 300 });
+  ls.addChild(hero.el);
+}
