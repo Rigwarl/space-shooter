@@ -1,14 +1,15 @@
+import game from './game.js';
 import load from './load.js';
 
-const app = {
-  init() {
-    const stage = new createjs.Stage('game-stage');
-
-    load({ src: 'img/spritesheet.json', id: 'ss', type: 'spritesheet' }).then(queue => {
-      stage.addChild(new createjs.Sprite(queue.getResult('ss'), 'playerShip1_orange.png'));
-      stage.update();
-    });
-  },
+const stage = new createjs.Stage('game-stage');
+const cb = {
+  width: stage.canvas.width,
+  height: stage.canvas.height,
 };
 
-app.init();
+load({ src: 'img/spritesheet.json', id: 'ss', type: 'spritesheet' })
+  .then(queue => game.init({ ss: queue.getResult('ss'), stage, cb }));
+
+createjs.Ticker.addEventListener('tick', () => stage.update());
+createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
+createjs.Ticker.setFPS(20);
