@@ -9,21 +9,11 @@ const CONFIG = {
 };
 
 export default class Hero extends Element {
-  constructor(ss) {
-    super(ss);
-    this.createBody();
+  constructor(args) {
+    args.body = 'playerShip1_orange';
+    super(args);
     this.createProps();
     this.el.addEventListener('tick', () => this.tick());
-  }
-  createBody() {
-    this.el = new createjs.Container();
-    this.body = new createjs.Sprite(this.ss, 'playerShip1_orange');
-    this.bounds = this.body.getBounds();
-    this.el.set({
-      regX: this.bounds.width / 2,
-      regY: this.bounds.height / 2,
-    });
-    this.el.addChild(this.body);
   }
   createProps() {
     this.rotation = 0;
