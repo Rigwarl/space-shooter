@@ -8,8 +8,13 @@ const cb = {
 };
 
 load({ src: 'img/spritesheet.json', id: 'ss', type: 'spritesheet' })
-  .then(queue => game.init({ ss: queue.getResult('ss'), stage, cb }));
+  .then(queue => {
+    game.init({ ss: queue.getResult('ss'), stage, cb });
+    setTicker();
+  });
 
-createjs.Ticker.addEventListener('tick', () => stage.update());
-createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
-createjs.Ticker.setFPS(20);
+function setTicker() {
+  createjs.Ticker.addEventListener('tick', () => stage.update());
+  createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
+  createjs.Ticker.framerate = 20;
+}
