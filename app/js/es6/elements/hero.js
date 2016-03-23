@@ -4,7 +4,7 @@ import collisions from '../collisions.js';
 
 const CONFIG = {
   speed: 1.2,
-  rotSpeed: 1,
+  rotSpeed: 0.8,
   inertia: 0.94,
   rotInertia: 0.85,
 };
