@@ -1,9 +1,10 @@
 import Element from './element.js';
 import actions from '../actions.js';
+import collisions from '../collisions.js';
 
 const CONFIG = {
-  speed: 2,
-  rotSpeed: 2,
+  speed: 1,
+  rotSpeed: 1,
   inertia: 0.94,
   rotInertia: 0.85,
 };
@@ -14,6 +15,7 @@ export default class Hero extends Element {
     super(args);
     this.createProps();
     this.el.addEventListener('tick', () => this.tick());
+    collisions.add(this);
   }
   createProps() {
     this.rotation = 0;
@@ -25,7 +27,9 @@ export default class Hero extends Element {
   }
   tick() {
     this.handleActions();
-
+    this.move();
+  }
+  move() {
     this.rotation += this.vRot * CONFIG.rotSpeed;
     this.el.rotation = this.rotation;
     this.el.x += this.vX;
