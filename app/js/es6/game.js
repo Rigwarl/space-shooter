@@ -39,6 +39,6 @@ function start() {
 
 function tick() {
   collisions.check(lb);
-  camera.move({ hero, lb, cb, ls });
+  camera.move({ hero, lb, cb, ls, stage });
   stage.update();
 }

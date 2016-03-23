@@ -3,7 +3,7 @@ import actions from '../actions.js';
 import collisions from '../collisions.js';
 
 const CONFIG = {
-  speed: 1,
+  speed: 1.2,
   rotSpeed: 1,
   inertia: 0.94,
   rotInertia: 0.85,
