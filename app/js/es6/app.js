@@ -5,6 +5,12 @@ const stage = new createjs.Stage('game-stage');
 const cb = {
   width: stage.canvas.width,
   height: stage.canvas.height,
+  get xCenter() {
+    return this.width / 2;
+  },
+  get yCenter() {
+    return this.height / 2;
+  },
 };
 
 load({ src: 'img/spritesheet.json', id: 'ss', type: 'spritesheet' })
@@ -14,7 +20,6 @@ load({ src: 'img/spritesheet.json', id: 'ss', type: 'spritesheet' })
   });
 
 function setTicker() {
-  createjs.Ticker.addEventListener('tick', () => stage.update());
   createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
-  createjs.Ticker.framerate = 20;
+  createjs.Ticker.framerate = 30;
 }
