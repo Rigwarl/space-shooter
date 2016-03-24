@@ -9,6 +9,7 @@ let stage;
 let ls;
 let hero;
 let lb;
+let ticks = 0;
 
 export default {
   init(args) {
@@ -32,21 +33,46 @@ function start() {
   stage.addChild(ls);
   hero.addTo(ls);
 
-  createMeteorites();
+  for (let i = 0; i < 50; i++) createMeteor();
 }
 
-function createMeteorites() {
-  for (let i = 0; i < 150; i++) {
-    const meteor = new Meteor({
-      ss,
-      x: Math.random() * lb.width,
-      y: Math.random() * lb.height,
-    });
-    meteor.addTo(ls);
+function createMeteor() {
+  let vY = 1;
+  let vX = 1;
+  let x = Math.random() * lb.width;
+  let y = Math.random() * lb.height;
+  const rand = Math.floor(Math.random() * 4);
+
+  switch (rand) {
+    case 0:
+      y = -100;
+      break;
+    case 1:
+      x = lb.width + 100;
+      vX = -1;
+      break;
+    case 2:
+      y = lb.height + 100;
+      vY = -1;
+      break;
+    case 3:
+      x = -100;
+      break;
+    default:
+      break;
   }
+
+  const meteor = new Meteor({ ss, x, y, vY, vX });
+  meteor.addTo(ls);
 }
 
 function tick() {
+  ticks++;
+  if (!(ticks % 10)) {
+    console.log('meteor coming');
+    createMeteor();
+  }
+
   collisions.process(lb);
   camera.move({ hero, lb, cb, ls, stage });
   stage.update();
