@@ -68,7 +68,7 @@ function createMeteor() {
 
 function tick() {
   ticks++;
-  if (!(ticks % 10)) {
+  if (!(ticks % 5)) {
     console.log('meteor coming');
     createMeteor();
   }

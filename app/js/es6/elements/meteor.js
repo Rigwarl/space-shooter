@@ -9,8 +9,8 @@ export default class Meteor extends Element {
     this.shape = 'circle';
     this.radius = 46;
     this.damage = 25;
-    this.vX = Math.random() * 7 * args.vX;
-    this.vY = Math.random() * 7 * args.vY;
+    this.vX = Math.random() * 5 * args.vX;
+    this.vY = Math.random() * 5 * args.vY;
     this.vRot = Math.random() * 5 - 2.5;
 
     collisions.add(this);
