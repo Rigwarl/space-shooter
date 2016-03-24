@@ -2,7 +2,7 @@ const items = new Set();
 const actions = new Set();
 const collideTable = {
   Meteor: { Hero: 'destroy', Meteor: 'destroy' },
-  Hero: { Hero: null, Meteor: null },
+  Hero: { Hero: null, Meteor: 'takeHit' },
 };
 
 export default {
@@ -20,7 +20,7 @@ export default {
       });
     });
 
-    actions.forEach(item => item[0][item[1]](item[2]));
+    actions.forEach(item => item.obj1[item.action](item.obj2));
     actions.clear();
   },
 };
@@ -29,11 +29,8 @@ function checkPair(obj1, obj2) {
   if (obj1 !== obj2) {
     if (obj1.shape === 'circle' && obj2.shape === 'circle') {
       if (obj1.radius + obj2.radius > getDistance(obj1, obj2)) {
-        const action1 = collideTable[obj1.constructor.name][obj2.constructor.name];
-        const action2 = collideTable[obj2.constructor.name][obj1.constructor.name];
-
-        if (action1) actions.add([obj1, action1, obj2]);
-        if (action2) actions.add([obj2, action2, obj1]);
+        const action = collideTable[obj1.constructor.name][obj2.constructor.name];
+        if (action) actions.add({ obj1, action, obj2 });
       }
     }
   }
