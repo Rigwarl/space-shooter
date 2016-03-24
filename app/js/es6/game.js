@@ -33,12 +33,12 @@ function start() {
   stage.addChild(ls);
   hero.addTo(ls);
 
-  for (let i = 0; i < 50; i++) createMeteor();
+  for (let i = 0; i < 20; i++) createMeteor();
 }
 
 function createMeteor() {
-  let vY = 1;
-  let vX = 1;
+  let vY = (Math.random() - 0.5) * 2;
+  let vX = (Math.random() - 0.5) * 2;
   let x = Math.random() * lb.width;
   let y = Math.random() * lb.height;
   const rand = Math.floor(Math.random() * 4);
