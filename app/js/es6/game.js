@@ -10,14 +10,16 @@ let ls;
 let hero;
 let lb;
 
-export function init(args) {
-  ss = args.ss;
-  cb = args.cb;
-  stage = args.stage;
+export default {
+  init(args) {
+    ss = args.ss;
+    cb = args.cb;
+    stage = args.stage;
 
-  start();
-  createjs.Ticker.addEventListener('tick', tick);
-}
+    start();
+    createjs.Ticker.addEventListener('tick', tick);
+  },
+};
 
 function start() {
   lb = {
