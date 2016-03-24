@@ -1,7 +1,7 @@
 import collisions from './collisions.js';
 import camera from './camera.js';
 import Hero from './elements/hero.js';
-import Element from './elements/element.js';
+import Meteor from './elements/meteor.js';
 
 let ss;
 let cb;
@@ -28,13 +28,20 @@ function start() {
   hero = new Hero({ ss, x: lb.width / 2, y: lb.height / 2 });
 
   stage.addChild(ls);
-  ls.addChild(
-    hero.el,
-    new Element({ ss, body: 'meteorBrown_big1' }).el,
-    new Element({ ss, body: 'meteorBrown_big1', x: lb.width, y: lb.height }).el,
-    new Element({ ss, body: 'meteorBrown_big1', x: lb.width }).el,
-    new Element({ ss, body: 'meteorBrown_big1', y: lb.height }).el
-  );
+  hero.addTo(ls);
+
+  createMeteorites();
+}
+
+function createMeteorites() {
+  for (let i = 0; i < 50; i++) {
+    const meteor = new Meteor({
+      ss,
+      x: Math.random() * lb.width,
+      y: Math.random() * lb.height,
+    });
+    meteor.addTo(ls);
+  }
 }
 
 function tick() {

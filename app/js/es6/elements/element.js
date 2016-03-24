@@ -14,6 +14,9 @@ export default class Element {
 
     this.el.addChild(this.body);
   }
+  addTo(parent) {
+    parent.addChild(this.el);
+  }
   remove() {
     this.el.parent.removeChild(this.el);
   }
