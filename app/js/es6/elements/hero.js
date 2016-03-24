@@ -3,8 +3,8 @@ import actions from '../actions.js';
 import collisions from '../collisions.js';
 
 const CONFIG = {
-  speed: 1.2,
-  rotSpeed: 0.8,
+  speed: 1,
+  rotSpeed: 0.7,
   inertia: 0.94,
   rotInertia: 0.85,
 };
@@ -14,19 +14,48 @@ export default class Hero extends Element {
     args.body = 'playerShip1_orange';
     super(args);
 
+    this.damage = new createjs.Sprite(args.ss, 'playerShip1_damage1').set({ visible: false });
+    this.el.addChild(this.damage);
+
     this.createFire();
     this.createProps();
 
     this.shape = 'circle';
     this.radius = 44;
-    collisions.add(this);
+    this.health = 100;
+    this.maxHealth = 100;
 
+    collisions.add(this);
     this.el.addEventListener('tick', () => this.tick());
+  }
+  takeHit(enemy) {
+    this.changeHealth(-enemy.damage);
+    console.log('health ' + this.health);
+  }
+  changeHealth(amount) {
+    this.health += amount;
+    const hp = this.health / this.maxHealth;
+
+    if (hp <= 0) this.destroy();
+    else if (hp <= 0.25) this.showDamage(3);
+    else if (hp <= 0.50) this.showDamage(2);
+    else if (hp <= 0.75) this.showDamage(1);
+    else {
+      this.showDamage(0);
+      if (hp > 1) this.health = this.maxHealth;
+    }
+  }
+  showDamage(amount) {
+    if (amount === 0) {
+      this.damage.visible = false;
+    } else {
+      this.damage.visible = true;
+      this.damage.gotoAndStop(`playerShip1_damage${amount}`);
+    }
   }
   createFire() {
     this.ss.getAnimation('fire13').next = 'fire12';
     this.ss.getAnimation('fire12').next = 'fire13';
-    this.ss.getAnimation('fire17').next = 'fire13';
 
     this.fireLeft = new createjs.Sprite(this.ss, 'fire13').set({
       x: 17,
@@ -100,5 +129,9 @@ export default class Hero extends Element {
     if (actions.down) this.thrust = 0.5;
     if (actions.left) this.heading = -1;
     if (actions.right) this.heading = 1;
+  }
+  destroy() {
+    this.remove();
+    collisions.remove(this);
   }
 }
