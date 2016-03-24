@@ -58,7 +58,7 @@ export default class Hero extends Element {
 
       if (this.heading === -1) leftTo = 0.75;
       else if (this.heading === 1) rightTo = 0.75;
-    } else {
+    } else if (this.thrust === 0) {
       if (this.heading === -1) rightTo = 0.65;
       else if (this.heading === 1) leftTo = 0.65;
     }
