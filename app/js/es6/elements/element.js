@@ -18,6 +18,6 @@ export default class Element {
     parent.addChild(this.el);
   }
   remove() {
-    this.el.parent.removeChild(this.el);
+    if (this.el.parent) this.el.parent.removeChild(this.el);
   }
 }

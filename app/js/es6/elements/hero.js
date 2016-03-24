@@ -13,10 +13,15 @@ export default class Hero extends Element {
   constructor(args) {
     args.body = 'playerShip1_orange';
     super(args);
+
     this.createFire();
     this.createProps();
-    this.el.addEventListener('tick', () => this.tick());
+
+    this.shape = 'circle';
+    this.radius = 44;
     collisions.add(this);
+
+    this.el.addEventListener('tick', () => this.tick());
   }
   createFire() {
     this.ss.getAnimation('fire13').next = 'fire12';

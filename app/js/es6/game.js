@@ -36,7 +36,7 @@ function start() {
 }
 
 function createMeteorites() {
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 150; i++) {
     const meteor = new Meteor({
       ss,
       x: Math.random() * lb.width,
@@ -47,7 +47,7 @@ function createMeteorites() {
 }
 
 function tick() {
-  collisions.check(lb);
+  collisions.process(lb);
   camera.move({ hero, lb, cb, ls, stage });
   stage.update();
 }
