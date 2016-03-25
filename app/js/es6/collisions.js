@@ -27,20 +27,20 @@ export default {
 
 function checkPair(obj1, obj2) {
   if (obj1 !== obj2) {
-    if (obj1.shape === 'circle' && obj2.shape === 'circle') {
-      if (obj1.radius + obj2.radius > getDistance(obj1, obj2)) {
-        const action = collideTable[obj1.constructor.name][obj2.constructor.name];
-        if (action) actions.add({ obj1, action, obj2 });
-      }
+    if (obj1.radius + obj2.radius > getDistance(obj1, obj2)) {
+      const action = collideTable[obj1.constructor.name][obj2.constructor.name];
+      if (action) actions.add({ obj1, action, obj2 });
     }
   }
 }
 
 function checkFrameHit(obj, lb) {
-  if ((obj.el.x < 0 && obj.vX < 0) || (obj.el.x > lb.width && obj.vX > 0)) {
+  if ((obj.el.x - obj.radius < 0 && obj.vX < 0) ||
+      (obj.el.x + obj.radius > lb.width && obj.vX > 0)) {
     obj.vX = -obj.vX * 0.85;
   }
-  if ((obj.el.y < 0 && obj.vY < 0) || (obj.el.y > lb.height && obj.vY > 0)) {
+  if ((obj.el.y - obj.radius < 0 && obj.vY < 0) ||
+      (obj.el.y + obj.radius > lb.height && obj.vY > 0)) {
     obj.vY = -obj.vY * 0.85;
   }
 }
