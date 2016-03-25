@@ -1,6 +1,5 @@
 import Element from './element.js';
 import actions from '../actions.js';
-import collisions from '../collisions.js';
 
 const CONFIG = {
   speed: 1,
@@ -19,18 +18,24 @@ export default class Hero extends Element {
 
     this.createFire();
     this.createProps();
+    this.addToCollisions();
 
-    this.shape = 'circle';
-    this.radius = 44;
-    this.health = 100;
-    this.maxHealth = 100;
-
-    collisions.add(this);
     this.el.addEventListener('tick', () => this.tick());
+  }
+  createProps() {
+    this.maxHealth = 100;
+    this.health = this.maxHealth;
+    this.radius = 44;
+
+    this.rotation = 0;
+    this.heading = 0;
+    this.thrust = 0;
+    this.vRot = 0;
+    this.vX = 0;
+    this.vY = 0;
   }
   takeHit(enemy) {
     this.changeHealth(-enemy.damage);
-    console.log('health ' + this.health);
   }
   changeHealth(amount) {
     this.health += amount;
@@ -50,6 +55,13 @@ export default class Hero extends Element {
       this.damage.visible = false;
     } else {
       this.damage.visible = true;
+      createjs.Tween.get(this.damage, { override: true })
+        .to({
+          alpha: 0.7,
+        }, 200, createjs.Ease.backInOut)
+        .to({
+          alpha: 1,
+        }, 200, createjs.Ease.backInOut);
       this.damage.gotoAndStop(`playerShip1_damage${amount}`);
     }
   }
@@ -68,14 +80,6 @@ export default class Hero extends Element {
       scaleY: 0,
     });
     this.el.addChildAt(this.fireLeft, this.fireRight, 0);
-  }
-  createProps() {
-    this.rotation = 0;
-    this.heading = 0;
-    this.thrust = 0;
-    this.vRot = 0;
-    this.vX = 0;
-    this.vY = 0;
   }
   tick() {
     this.handleActions();
@@ -129,9 +133,5 @@ export default class Hero extends Element {
     if (actions.down) this.thrust = 0.5;
     if (actions.left) this.heading = -1;
     if (actions.right) this.heading = 1;
-  }
-  destroy() {
-    this.remove();
-    collisions.remove(this);
   }
 }
