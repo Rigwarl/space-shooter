@@ -30,6 +30,7 @@ export default class Hero extends Element {
 
     this.heading = 0;
     this.thrust = 0;
+    this.weaponCd = 0;
     this.firing = false;
 
     this.rotation = 0;
@@ -85,15 +86,17 @@ export default class Hero extends Element {
     this.el.addChildAt(this.fireLeft, this.fireRight, 0);
   }
   fireWeapon() {
-    if (!this.firing) return;
+    if (!this.firing || this.weaponCd > 0) return;
     const laser = new Laser({
       ss: this.ss,
-      x: this.el.x - this.radius * Math.sin(this.rotation * Math.PI / -180),
-      y: this.el.y - this.radius * Math.cos(this.rotation * Math.PI / -180),
-      regY: this.radius,
+      x: this.el.x - 2.2 * this.radius  * Math.sin(this.rotation * Math.PI / -180),
+      y: this.el.y - 2.2 * this.radius * Math.cos(this.rotation * Math.PI / -180),
       rotation: this.rotation,
+      vX: this.vX,
+      vY: this.vY,
     });
 
+    this.weaponCd = 10;
     this.el.parent.addChild(laser.el);
   }
   animateFire() {
@@ -147,6 +150,7 @@ export default class Hero extends Element {
     if (actions.fire) this.firing = true;
   }
   tick() {
+    this.weaponCd--;
     this.handleActions();
     this.move();
     this.animateFire();
