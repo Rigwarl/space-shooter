@@ -7,6 +7,7 @@ const keyMap = {
   40: 'down',
   37: 'left',
   39: 'right',
+  32: 'fire',
 };
 
 window.addEventListener('keydown', e => {

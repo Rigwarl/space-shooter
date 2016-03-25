@@ -1,4 +1,5 @@
 import Element from './element.js';
+import Laser from './laser.js';
 import actions from '../actions.js';
 
 const CONFIG = {
@@ -27,9 +28,11 @@ export default class Hero extends Element {
     this.health = this.maxHealth;
     this.radius = 44;
 
-    this.rotation = 0;
     this.heading = 0;
     this.thrust = 0;
+    this.firing = false;
+
+    this.rotation = 0;
     this.vRot = 0;
     this.vX = 0;
     this.vY = 0;
@@ -81,10 +84,17 @@ export default class Hero extends Element {
     });
     this.el.addChildAt(this.fireLeft, this.fireRight, 0);
   }
-  tick() {
-    this.handleActions();
-    this.move();
-    this.animateFire();
+  fireWeapon() {
+    if (!this.firing) return;
+    const laser = new Laser({
+      ss: this.ss,
+      x: this.el.x - this.radius * Math.sin(this.rotation * Math.PI / -180),
+      y: this.el.y - this.radius * Math.cos(this.rotation * Math.PI / -180),
+      regY: this.radius,
+      rotation: this.rotation,
+    });
+
+    this.el.parent.addChild(laser.el);
   }
   animateFire() {
     let leftTo = 0;
@@ -128,10 +138,18 @@ export default class Hero extends Element {
     this.oldThrust = this.thrust;
     this.thrust = 0;
     this.heading = 0;
+    this.firing = false;
 
     if (actions.up) this.thrust = -1;
     if (actions.down) this.thrust = 0.5;
     if (actions.left) this.heading = -1;
     if (actions.right) this.heading = 1;
+    if (actions.fire) this.firing = true;
+  }
+  tick() {
+    this.handleActions();
+    this.move();
+    this.animateFire();
+    this.fireWeapon();
   }
 }

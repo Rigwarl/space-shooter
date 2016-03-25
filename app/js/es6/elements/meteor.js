@@ -2,7 +2,7 @@ import Element from './element.js';
 
 export default class Meteor extends Element {
   constructor(args) {
-    args.body = 'meteorBrown_big1';
+    args.body = 'meteorGrey_big1';
     super(args);
 
     this.radius = 46;
