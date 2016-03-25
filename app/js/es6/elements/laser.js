@@ -5,7 +5,7 @@ const lifetime = 20;
 
 export default class Laser extends Element {
   constructor(args) {
-    args.body = 'laserGreen02';
+    args.body = 'laserGreen12';
     super(args);
 
     this.el.regY = 0;
