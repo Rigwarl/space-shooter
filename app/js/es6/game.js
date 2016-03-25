@@ -37,11 +37,11 @@ function start() {
 }
 
 function createMeteor() {
+  const rand = Math.floor(Math.random() * 4);
   let vY = (Math.random() - 0.5) * 2;
   let vX = (Math.random() - 0.5) * 2;
   let x = Math.random() * lb.width;
   let y = Math.random() * lb.height;
-  const rand = Math.floor(Math.random() * 4);
 
   switch (rand) {
     case 0:
@@ -67,11 +67,7 @@ function createMeteor() {
 }
 
 function tick() {
-  ticks++;
-  if (!(ticks % 5)) {
-    console.log('meteor coming');
-    createMeteor();
-  }
+  if (!(++ticks % 5)) createMeteor();
 
   collisions.process(lb);
   camera.move({ hero, lb, cb, ls, stage });
