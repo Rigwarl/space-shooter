@@ -28,6 +28,5 @@ export default class Element {
   destroy() {
     this.remove();
     collisions.remove(this);
-    console.log(`${this.constructor.name} died!`);
   }
 }
