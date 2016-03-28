@@ -89,14 +89,14 @@ export default class Hero extends Element {
     if (!this.firing || this.weaponCd > 0) return;
     const laser = new Laser({
       ss: this.ss,
-      x: this.el.x - 1.6 * this.radius  * Math.sin(this.rotation * Math.PI / -180),
+      x: this.el.x - 1.6 * this.radius * Math.sin(this.rotation * Math.PI / -180),
       y: this.el.y - 1.6 * this.radius * Math.cos(this.rotation * Math.PI / -180),
       rotation: this.rotation,
       vX: this.vX,
       vY: this.vY,
     });
 
-    this.weaponCd = 10;
+    this.weaponCd = 8;
     this.el.parent.addChild(laser.el);
   }
   animateFire() {
