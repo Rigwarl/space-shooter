@@ -3,7 +3,7 @@ const actions = new Set();
 const collideTable = {
   Meteor: { Hero: 'destroy', Meteor: 'destroy', Laser: 'destroy' },
   Hero:   { Hero: null,      Meteor: 'takeHit', Laser: 'takeHit' },
-  Laser:  { Hero: 'destroy',      Meteor: 'destroy', Laser: null },
+  Laser:  { Hero: 'destroy', Meteor: 'explode', Laser: null      },
 };
 
 export default {

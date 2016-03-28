@@ -1,7 +1,7 @@
 import Element from './element.js';
+import Explosion from './explosion.js';
 
 const speed = 25;
-const lifetime = 20;
 
 export default class Laser extends Element {
   constructor(args) {
@@ -31,7 +31,18 @@ export default class Laser extends Element {
       case 18:
         this.destroy();
         break;
+      default:
     }
+  }
+  explode() {
+    const explosion = new Explosion({
+      ss: this.ss,
+      x: this.el.x,
+      y: this.el.y,
+    });
+
+    this.el.parent.addChild(explosion.el);
+    this.destroy();
   }
   tick() {
     this.processLife();
