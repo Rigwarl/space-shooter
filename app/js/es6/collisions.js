@@ -36,6 +36,8 @@ function checkPair(obj1, obj2) {
 }
 
 function checkFrameHit(obj, lb) {
+  if (obj.constructor.name === 'Laser') return;
+
   if ((obj.el.x - obj.radius < 0 && obj.vX < 0) ||
       (obj.el.x + obj.radius > lb.width && obj.vX > 0)) {
     obj.vX = -obj.vX * 0.85;
