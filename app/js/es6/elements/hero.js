@@ -134,7 +134,6 @@ export default class Hero extends Element {
     this.vY = this.vY * CONFIG.inertia;
   }
   setActions(act) {
-    this.oldThrust = this.thrust;
     this.thrust = 0;
     this.heading = 0;
     this.firing = false;
