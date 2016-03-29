@@ -38,13 +38,13 @@ export default {
   checkFrameHit(obj, lb, turn) {
     const result = {};
 
-    if ((obj.el.x - obj.radius < 0 && obj.vX < 0) ||
-        (obj.el.x + obj.radius > lb.width && obj.vX > 0)) {
+    if ((obj.x - obj.radius < 0 && obj.vX < 0) ||
+        (obj.x + obj.radius > lb.width && obj.vX > 0)) {
       if (turn) obj.vX = -obj.vX * 0.9;
       result.x = true;
     }
-    if ((obj.el.y - obj.radius < 0 && obj.vY < 0) ||
-        (obj.el.y + obj.radius > lb.height && obj.vY > 0)) {
+    if ((obj.y - obj.radius < 0 && obj.vY < 0) ||
+        (obj.y + obj.radius > lb.height && obj.vY > 0)) {
       if (turn) obj.vY = -obj.vY * 0.9;
       result.y = true;
     }
@@ -59,5 +59,5 @@ function setAction(obj1, obj2) {
 }
 
 function getDistance(obj1, obj2) {
-  return Math.sqrt(Math.pow(obj1.el.x - obj2.el.x, 2) + Math.pow(obj1.el.y - obj2.el.y, 2));
+  return Math.sqrt(Math.pow(obj1.x - obj2.x, 2) + Math.pow(obj1.y - obj2.y, 2));
 }

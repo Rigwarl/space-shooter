@@ -20,6 +20,7 @@ export default class Hero extends Element {
     this.createFire();
     this.createProps();
     this.addToCollisions();
+    this.addToAi();
 
     this.el.addEventListener('tick', () => this.tick());
   }
@@ -89,8 +90,8 @@ export default class Hero extends Element {
     if (!this.firing || this.weaponCd > 0) return;
     const laser = new Laser({
       ss: this.ss,
-      x: this.el.x - 1.6 * this.radius * Math.sin(this.rotation * Math.PI / -180),
-      y: this.el.y - 1.6 * this.radius * Math.cos(this.rotation * Math.PI / -180),
+      x: this.x - 1.6 * this.radius * Math.sin(this.rotation * Math.PI / -180),
+      y: this.y - 1.6 * this.radius * Math.cos(this.rotation * Math.PI / -180),
       rotation: this.rotation,
       vX: this.vX,
       vY: this.vY,
@@ -117,11 +118,10 @@ export default class Hero extends Element {
     createjs.Tween.get(this.fireRight, { override: true }).to({ scaleY: rightTo }, 300);
     createjs.Tween.get(this.fireLeft, { override: true }).to({ scaleY: leftTo }, 300);
   }
-  move() {
+  calcMove() {
     this.rotation += this.vRot * CONFIG.rotSpeed;
-    this.el.rotation = this.rotation;
-    this.el.x += this.vX;
-    this.el.y += this.vY;
+    this.x += this.vX;
+    this.y += this.vY;
 
     this.vRot += this.heading;
     this.vRot *= CONFIG.rotInertia;
@@ -137,22 +137,25 @@ export default class Hero extends Element {
     this.vX = this.vX * CONFIG.inertia;
     this.vY = this.vY * CONFIG.inertia;
   }
-  handleActions(actions) {
+  setActions(act) {
     this.oldThrust = this.thrust;
     this.thrust = 0;
     this.heading = 0;
     this.firing = false;
 
-    if (actions.up) this.thrust = -1;
-    if (actions.down) this.thrust = 0.5;
-    if (actions.left) this.heading = -1;
-    if (actions.right) this.heading = 1;
-    if (actions.fire) this.firing = true;
+    if (act.up) this.thrust = -1;
+    if (act.down) this.thrust = 0.5;
+    if (act.left) this.heading = -1;
+    if (act.right) this.heading = 1;
+    if (act.fire) this.firing = true;
   }
   tick() {
     this.weaponCd--;
-    this.handleActions(actions);
+
+    this.setActions(actions.get());
+    this.calcMove();
     this.move();
+
     this.animateFire();
     this.fireWeapon();
   }

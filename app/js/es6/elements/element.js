@@ -14,8 +14,15 @@ export default class Element {
       x,
       y,
     });
+    this.x = x;
+    this.y = y;
 
     this.el.addChild(this.body);
+  }
+  move() {
+    this.el.x = this.x;
+    this.el.y = this.y;
+    this.el.rotation = this.rotation;
   }
   addToAi() {
     ai.add(this);

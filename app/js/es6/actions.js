@@ -1,6 +1,10 @@
 const actions = {};
 
-export default actions;
+export default {
+  get() {
+    return actions;
+  },
+};
 
 const keyMap = {
   38: 'up',

@@ -10,11 +10,13 @@ export default class Laser extends Element {
 
     this.el.regY = 0;
     this.el.rotation = args.rotation;
+
+    this.rotation = args.rotation;
     this.damage = 10;
     this.lifetime = 0;
 
-    this.vX = args.vX - Math.sin((this.el.rotation) * Math.PI / -180) * speed;
-    this.vY = args.vY - Math.cos((this.el.rotation) * Math.PI / -180) * speed;
+    this.vX = args.vX - Math.sin((this.rotation) * Math.PI / -180) * speed;
+    this.vY = args.vY - Math.cos((this.rotation) * Math.PI / -180) * speed;
     this.radius = 1;
 
     this.addToCollisions();
@@ -46,7 +48,8 @@ export default class Laser extends Element {
   }
   tick() {
     this.processLife();
-    this.el.x += this.vX;
-    this.el.y += this.vY;
+    this.x += this.vX;
+    this.y += this.vY;
+    this.move();
   }
 }
