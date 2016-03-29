@@ -13,6 +13,7 @@ export default class Meteor extends Element {
     this.vRot = Math.random() * 5 - 2.5;
 
     this.addToCollisions();
+    this.addToAi();
     this.el.addEventListener('tick', () => this.tick());
   }
   takeHit(enemy) {

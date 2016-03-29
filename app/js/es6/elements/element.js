@@ -1,4 +1,5 @@
 import collisions from '../collisions.js';
+import ai from '../ai.js';
 
 export default class Element {
   constructor({ ss, body, x = 0, y = 0 }) {
@@ -16,6 +17,9 @@ export default class Element {
 
     this.el.addChild(this.body);
   }
+  addToAi() {
+    ai.add(this);
+  }
   addToCollisions() {
     collisions.add(this);
   }
@@ -28,5 +32,6 @@ export default class Element {
   destroy() {
     this.remove();
     collisions.remove(this);
+    ai.remove(this);
   }
 }
