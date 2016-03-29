@@ -137,7 +137,7 @@ export default class Hero extends Element {
     this.vX = this.vX * CONFIG.inertia;
     this.vY = this.vY * CONFIG.inertia;
   }
-  handleActions() {
+  handleActions(actions) {
     this.oldThrust = this.thrust;
     this.thrust = 0;
     this.heading = 0;
@@ -151,7 +151,7 @@ export default class Hero extends Element {
   }
   tick() {
     this.weaponCd--;
-    this.handleActions();
+    this.handleActions(actions);
     this.move();
     this.animateFire();
     this.fireWeapon();
