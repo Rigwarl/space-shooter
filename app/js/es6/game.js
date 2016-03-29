@@ -2,6 +2,7 @@ import collisions from './collisions.js';
 import camera from './camera.js';
 import Hero from './elements/hero.js';
 import Meteor from './elements/meteor.js';
+import ai from './ai.js';
 
 let ss;
 let cb;
@@ -45,18 +46,18 @@ function createMeteor() {
 
   switch (rand) {
     case 0:
-      y = -100;
+      y = -200;
       break;
     case 1:
-      x = lb.width + 100;
+      x = lb.width + 200;
       vX = -1;
       break;
     case 2:
-      y = lb.height + 100;
+      y = lb.height + 200;
       vY = -1;
       break;
     case 3:
-      x = -100;
+      x = -200;
       break;
     default:
       break;
@@ -70,6 +71,7 @@ function tick() {
   if (!(++ticks % 5)) createMeteor();
 
   collisions.process(lb);
+  ai.setActions(lb);
   camera.move({ hero, lb, cb, ls, stage });
   stage.update();
 }
