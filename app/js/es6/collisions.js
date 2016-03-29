@@ -15,7 +15,9 @@ export default {
   },
   process(lb) {
     items.forEach(obj1 => {
-      if (obj1.constructor.name !== 'Laser') this.checkFrameHit(obj1, lb, true);
+      if (obj1.constructor.name !== 'Laser') {
+        this.checkFrameHit(obj1, lb, true);
+      }
 
       items.forEach(obj2 => {
         if (this.checkPair(obj1, obj2)) {
@@ -36,17 +38,23 @@ export default {
     return false;
   },
   checkFrameHit(obj, lb, turn) {
-    const result = {};
+    let result = false;
 
     if ((obj.x - obj.radius < 0 && obj.vX < 0) ||
         (obj.x + obj.radius > lb.width && obj.vX > 0)) {
-      if (turn) obj.vX = -obj.vX * 0.9;
-      result.x = true;
+      if (turn) {
+        obj.x -= obj.vX;
+        obj.vX = -obj.vX * 0.9;
+      }
+      result = true;
     }
     if ((obj.y - obj.radius < 0 && obj.vY < 0) ||
         (obj.y + obj.radius > lb.height && obj.vY > 0)) {
-      if (turn) obj.vY = -obj.vY * 0.9;
-      result.y = true;
+      if (turn) {
+        obj.y -= obj.vY;
+        obj.vY = -obj.vY * 0.9;
+      }
+      result = true;
     }
 
     return result;
