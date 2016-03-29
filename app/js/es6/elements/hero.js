@@ -1,6 +1,6 @@
 import Element from './element.js';
 import Laser from './laser.js';
-import actions from '../actions.js';
+//import actions from '../actions.js';
 
 const CONFIG = {
   speed: 1,
@@ -147,7 +147,7 @@ export default class Hero extends Element {
   tick() {
     this.weaponCd--;
 
-    this.setActions(actions.get());
+    //this.setActions(actions.get());
     this.calcMove();
     this.move();
 

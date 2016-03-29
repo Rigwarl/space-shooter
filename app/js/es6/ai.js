@@ -2,12 +2,12 @@ import collisions from './collisions.js';
 
 const meteors = new Set();
 const enemies = new Set();
-const steps = 30;
+const steps = 60;
 const map = new Map();
 const enemiesMap = new Map();
 let lb;
 
-const verticalActions = ['up', 'down'];
+const verticalActions = ['up', 'down', 'none'];
 const horisontalActions = ['none', 'left', 'right'];
 
 export default {
