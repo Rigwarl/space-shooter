@@ -119,11 +119,7 @@ export default class Hero extends Element {
     createjs.Tween.get(this.fireLeft, { override: true }).to({ scaleY: leftTo }, 300);
   }
   calcMove() {
-    this.rotation += this.vRot * CONFIG.rotSpeed;
-    this.x += this.vX;
-    this.y += this.vY;
-
-    this.vRot += this.heading;
+    this.vRot += this.heading * CONFIG.rotSpeed;
     this.vRot *= CONFIG.rotInertia;
 
     const ratioX = Math.sin(this.rotation * Math.PI / -180) * this.thrust;

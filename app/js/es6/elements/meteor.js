@@ -21,9 +21,6 @@ export default class Meteor extends Element {
     if (this.health <= 0) this.destroy();
   }
   tick() {
-    this.x += this.vX;
-    this.y += this.vY;
-    this.rotation -= this.vRot;
     this.move();
   }
 }

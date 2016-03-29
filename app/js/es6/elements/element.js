@@ -20,6 +20,10 @@ export default class Element {
     this.el.addChild(this.body);
   }
   move() {
+    this.x += this.vX || 0;
+    this.y += this.vY || 0;
+    this.rotation += this.vRot || 0;
+
     this.el.x = this.x;
     this.el.y = this.y;
     this.el.rotation = this.rotation;

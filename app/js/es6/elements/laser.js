@@ -48,8 +48,6 @@ export default class Laser extends Element {
   }
   tick() {
     this.processLife();
-    this.x += this.vX;
-    this.y += this.vY;
     this.move();
   }
 }
