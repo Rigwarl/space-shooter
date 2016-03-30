@@ -1,9 +1,10 @@
 const items = new Set();
 const actions = new Set();
 const collideTable = {
-  Meteor: { Hero: 'destroy', Meteor: 'destroy', Laser: 'takeHit' },
+  Meteor: { Hero: 'destroy', Meteor: 'destroy', Laser: 'takeHit', Target: 'destroy' },
   Hero:   { Hero: null,      Meteor: 'takeHit', Laser: 'takeHit' },
-  Laser:  { Hero: 'destroy', Meteor: 'explode', Laser: null      },
+  Laser:  { Hero: 'destroy', Meteor: 'explode', Laser: null,      Target: 'explode'  },
+  Target: { Hero: null,      Meteor: null,      Laser: 'takeHit' },
 };
 
 export default {
@@ -31,7 +32,7 @@ export default {
   },
   checkPair(obj1, obj2) {
     if (obj1 !== obj2) {
-      if (obj1.radius + obj2.radius > getDistance(obj1, obj2)) {
+      if (obj1.radius + obj2.radius > this.getDistance(obj1, obj2)) {
         return true;
       }
     }
@@ -59,13 +60,12 @@ export default {
 
     return result;
   },
+  getDistance(obj1, obj2) {
+    return Math.sqrt(Math.pow(obj1.x - obj2.x, 2) + Math.pow(obj1.y - obj2.y, 2));
+  },
 };
 
 function setAction(obj1, obj2) {
   const action = collideTable[obj1.constructor.name][obj2.constructor.name];
   if (action) actions.add({ obj1, action, obj2 });
-}
-
-function getDistance(obj1, obj2) {
-  return Math.sqrt(Math.pow(obj1.x - obj2.x, 2) + Math.pow(obj1.y - obj2.y, 2));
 }

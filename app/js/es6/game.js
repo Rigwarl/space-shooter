@@ -2,6 +2,7 @@ import collisions from './collisions.js';
 import camera from './camera.js';
 import Hero from './elements/hero.js';
 import Meteor from './elements/meteor.js';
+import Target from './elements/target.js';
 import ai from './ai.js';
 
 let ss;
@@ -33,6 +34,13 @@ function start() {
 
   stage.addChild(ls);
   hero.addTo(ls);
+  ls.addChild(new Target({
+    ss,
+    x: 800,
+    y: 800,
+    vY: 1,
+    vX: 1,
+  }).el);
 
   for (let i = 0; i < 20; i++) createMeteor();
 }
@@ -46,18 +54,18 @@ function createMeteor() {
 
   switch (rand) {
     case 0:
-      y = -200;
+      y = -300;
       break;
     case 1:
-      x = lb.width + 200;
+      x = lb.width + 300;
       vX = -1;
       break;
     case 2:
-      y = lb.height + 200;
+      y = lb.height + 300;
       vY = -1;
       break;
     case 3:
-      x = -200;
+      x = -300;
       break;
     default:
       break;
@@ -67,11 +75,12 @@ function createMeteor() {
   meteor.addTo(ls);
 }
 
-function tick() {
+function tick(e) {
   if (!(++ticks % 5)) createMeteor();
 
   collisions.process(lb);
   ai.setActions(lb);
   camera.move({ hero, lb, cb, ls, stage });
   stage.update();
+  //e.remove();
 }
