@@ -36,11 +36,13 @@ export default class Laser extends Element {
       default:
     }
   }
-  explode() {
+  explode(enemy) {
     const explosion = new Explosion({
       ss: this.ss,
       x: this.el.x,
       y: this.el.y,
+      vX: enemy.vX,
+      vY: enemy.vY,
     });
 
     this.el.parent.addChild(explosion.el);

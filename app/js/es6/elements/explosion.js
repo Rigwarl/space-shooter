@@ -5,6 +5,9 @@ export default class Explosion extends Element {
     args.body = 'laserGreen15';
     super(args);
 
+    this.vX = args.vX;
+    this.vY = args.vY;
+
     this.el.set({
       scaleX: 0.5,
       scaleY: 0.5,
@@ -25,6 +28,7 @@ export default class Explosion extends Element {
     this.el.addEventListener('tick', () => this.tick());
   }
   tick() {
+    this.move();
     switch (++this.lifetime) {
       case 3:
         this.body.gotoAndStop('laserGreen14');
