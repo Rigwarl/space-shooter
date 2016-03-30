@@ -8,6 +8,7 @@ const steps = 40;
 const step = 20;
 let lb;
 let target;
+const targetMap = new Map();
 
 const actions = [
   { up: true,   none: true,  multi: 1   },
@@ -79,13 +80,14 @@ function calcActions(enemy, from, to) {
 
 function checkAction(enemy, action, from, to) {
   const newEnemy = copy(enemy);
-  const oldDist = collisions.getDistance(newEnemy, target);
   const multi = steps / to;
   let result = 0;
 
   for (let i = from + 1; i <= to; i++) {
+    const targ = targetMap.get(i);
+    const oldDist = collisions.getDistance(newEnemy, targ);
     moveEnemy(newEnemy, action);
-    const dist = collisions.getDistance(newEnemy, target);
+    const dist = collisions.getDistance(newEnemy, targ);
 
     for (const meteor of map.get(i)) {
       if (collisions.checkPair(newEnemy, meteor)) {
@@ -95,22 +97,22 @@ function checkAction(enemy, action, from, to) {
     if (collisions.checkFrameHit(newEnemy, lb, true)) {
       result -= 0.3;
     }
-    result += checkTarget(newEnemy, dist, oldDist);
+    result += checkTarget(newEnemy, targ, dist, oldDist);
   }
 
   return (result || action.multi) * multi;
 }
 
-function checkTarget(enemy, dist, oldDist) {
+function checkTarget(enemy, targ, dist, oldDist) {
   if (dist > 320) {
     return 0;
   }
 
-  const angleToTarget = Math.atan2(enemy.y - target.y, enemy.x - target.x) * 180 / Math.PI;
+  const angleToTarget = Math.atan2(enemy.y - targ.y, enemy.x - targ.x) * 180 / Math.PI;
   const angle = Math.abs(angleToTarget - enemy.rotation - 90) % 360;
 
-  if (angle < 5) return 0.9;
-  if (angle < 10) return 0.6;
+  if (angle < 10) return 0.8;
+  if (angle < 15) return 0.5;
 
   if (dist < oldDist) {
     return 0.2;
@@ -167,6 +169,15 @@ function moveEnemy(enemy, action) {
 function initMaps() {
   map.clear();
   enemiesMap.clear();
+  targetMap.clear();
+  targetMap.set(0, copy(target));
+
+  for (let i = 1; i <= steps; i++) {
+    const newTarget = copy(targetMap.get(i - 1));
+    moveMeteor(newTarget);
+    collisions.checkFrameHit(newTarget, lb, true);
+    targetMap.set(i, newTarget);
+  }
 
   for (let i = 0; i <= steps; i++) {
     map.set(i, new Set());
