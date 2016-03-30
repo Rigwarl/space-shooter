@@ -19,7 +19,7 @@ const actions = [
   { down: true, right: true, multi: 0.7 },
   { none: true, left: true,  multi: 0.8 },
   { none: true, right: true, multi: 0.8 },
-  { none: true,              multi: 0.6 },
+  { none: true,              multi: 0.7 },
 ];
 
 export default {
