@@ -19,7 +19,7 @@ const actions = [
   { down: true, right: true, multi: 0.7 },
   { none: true, left: true,  multi: 0.8 },
   { none: true, right: true, multi: 0.8 },
-  //{ none: true,              multi: 0.5 },
+  { none: true,              multi: 0.6 },
 ];
 
 export default {
@@ -91,7 +91,7 @@ function checkAction(enemy, action, from, to) {
 
     for (const meteor of map.get(i)) {
       if (collisions.checkPair(newEnemy, meteor)) {
-        result -= 1;
+        result -= 1.5;
       }
     }
     if (collisions.checkFrameHit(newEnemy, lb, true)) {
@@ -100,7 +100,7 @@ function checkAction(enemy, action, from, to) {
     result += checkTarget(newEnemy, targ, dist, oldDist);
   }
 
-  return (result || action.multi) * multi;
+  return (result || action.multi / 2) * multi;
 }
 
 function checkTarget(enemy, targ, dist, oldDist) {
@@ -111,17 +111,17 @@ function checkTarget(enemy, targ, dist, oldDist) {
   const angleToTarget = Math.atan2(enemy.y - targ.y, enemy.x - targ.x) * 180 / Math.PI;
   const angle = Math.abs(angleToTarget - enemy.rotation - 90) % 360;
 
-  if (angle < 10) return 0.8;
-  if (angle < 15) return 0.5;
+  if (angle < 5) return 0.9;
+  if (angle < 10) return 0.5;
 
   if (dist < oldDist) {
-    return 0.2;
+    return 0.1;
   }
   return 0;
 }
 
 function checkFire(enemy) {
-  if (collisions.getDistance(enemy, target) > 380) {
+  if (collisions.getDistance(enemy, target) > 420) {
     return false;
   }
 
@@ -170,7 +170,16 @@ function initMaps() {
   map.clear();
   enemiesMap.clear();
   targetMap.clear();
-  targetMap.set(0, copy(target));
+
+  const newTarg = copy(target);
+  moveMeteor(newTarg);
+  collisions.checkFrameHit(newTarg, lb, true);
+  moveMeteor(newTarg);
+  collisions.checkFrameHit(newTarg, lb, true);
+  moveMeteor(newTarg);
+  collisions.checkFrameHit(newTarg, lb, true);
+
+  targetMap.set(0, newTarg);
 
   for (let i = 1; i <= steps; i++) {
     const newTarget = copy(targetMap.get(i - 1));
