@@ -98,7 +98,7 @@ function checkAction(enemy, action, from, to) {
     if (collisions.checkFrameHit(newEnemy, lb, true)) {
       result -= 0.6;
     }
-    result += checkTarget(newEnemy, targ, dist, oldDist);
+    result += checkTarget(newEnemy, targ, dist, oldDist, action);
   }
 
   if (!result) {
@@ -111,7 +111,7 @@ function checkAction(enemy, action, from, to) {
   return result * multi;
 }
 
-function checkTarget(enemy, targ, dist, oldDist) {
+function checkTarget(enemy, targ, dist, oldDist, action) {
   if (dist > 320) {
     return 0;
   }
@@ -123,7 +123,7 @@ function checkTarget(enemy, targ, dist, oldDist) {
   if (angle < 10) return 0.5;
   if (angle < 15) return 0.1;
 
-  if (dist < oldDist) {
+  if (action.up && (dist < oldDist)) {
     return 0.03;
   }
   return 0;
