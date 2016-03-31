@@ -100,7 +100,7 @@ function checkAction(enemy, action, from, to) {
     result += checkTarget(newEnemy, targ, dist, oldDist);
   }
 
-  return (result || action.multi / 2) * multi;
+  return (result || action.multi * 0.9) * multi;
 }
 
 function checkTarget(enemy, targ, dist, oldDist) {
@@ -115,7 +115,7 @@ function checkTarget(enemy, targ, dist, oldDist) {
   if (angle < 10) return 0.5;
 
   if (dist < oldDist) {
-    return 0.1;
+    return 0.03;
   }
   return 0;
 }

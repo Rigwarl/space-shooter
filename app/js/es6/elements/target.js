@@ -8,8 +8,8 @@ export default class Target extends Element {
     this.radius = 46;
     this.damage = 25;
     this.health = 3000;
-    this.vX = Math.random() * 6 * args.vX;
-    this.vY = Math.random() * 6 * args.vY;
+    this.vX = Math.random() * 16 * args.vX;
+    this.vY = Math.random() * 16 * args.vY;
     this.vRot = Math.random() * 5 - 2.5;
 
     this.addToCollisions();
