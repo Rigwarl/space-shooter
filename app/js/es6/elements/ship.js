@@ -2,8 +2,8 @@ import Element from './element.js';
 import Laser from './laser.js';
 
 const CONFIG = {
-  speed: 1,
-  rotSpeed: 0.7,
+  speed: 0.8,
+  rotSpeed: 0.5,
   inertia: 0.94,
   rotInertia: 0.85,
 };
@@ -39,6 +39,7 @@ export default class Ship extends Element {
     if (this.health <= 0) this.destroy();
   }
   fireWeapon() {
+    this.weaponCd--;
     if (!this.firing || this.weaponCd > 0) return;
     const laser = new Laser({
       ss: this.ss,
@@ -49,10 +50,10 @@ export default class Ship extends Element {
       vY: this.vY,
     });
 
-    this.weaponCd = 8;
+    this.weaponCd = this.weaponTimer;
     this.el.parent.addChild(laser.el);
   }
-  calcMove() {
+  calcMove(CONFIG) {
     this.vRot += this.heading * CONFIG.rotSpeed;
     this.vRot *= CONFIG.rotInertia;
 
@@ -79,9 +80,7 @@ export default class Ship extends Element {
     if (act.fire) this.firing = true;
   }
   tick() {
-    this.weaponCd--;
-
-    this.calcMove();
+    this.calcMove(CONFIG);
     this.move();
 
     this.fireWeapon();

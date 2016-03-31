@@ -7,6 +7,7 @@ export default class Enemy extends Ship {
 
     this.el.rotation = 180;
     this.rotation = 135;
+    this.weaponTimer = 15;
   }
   takeHit(enemy) {
     console.log('enemy take ' + enemy.damage);

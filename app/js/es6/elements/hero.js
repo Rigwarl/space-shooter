@@ -1,11 +1,20 @@
 import Ship from './ship.js';
 import actions from '../actions.js';
 
+const CONFIG = {
+  speed: 1,
+  rotSpeed: 0.7,
+  inertia: 0.94,
+  rotInertia: 0.85,
+};
+
 export default class Hero extends Ship {
   constructor(args) {
     args.body = 'playerShip1_orange';
-    args.health = 100;
+    args.health = 150;
     super(args);
+
+    this.weaponTimer = 10;
 
     this.createFire();
 
@@ -80,7 +89,10 @@ export default class Hero extends Ship {
   }
   tick() {
     this.setActions(actions.get());
-    super.tick();
+    this.calcMove(CONFIG);
+    this.move();
+
+    this.fireWeapon();
     this.animateFire();
   }
 }
