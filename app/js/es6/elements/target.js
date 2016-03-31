@@ -1,15 +1,15 @@
 import Element from './element.js';
 
-export default class Meteor extends Element {
+export default class Target extends Element {
   constructor(args) {
-    args.body = 'meteorGrey_big1';
+    args.body = 'meteorBrown_big1';
     super(args);
 
     this.radius = 46;
     this.damage = 25;
-    this.health = 30;
-    this.vX = Math.random() * 6 * args.vX;
-    this.vY = Math.random() * 6 * args.vY;
+    this.health = 3000;
+    this.vX = Math.random() * 20 * args.vX;
+    this.vY = Math.random() * 20 * args.vY;
     this.vRot = Math.random() * 5 - 2.5;
 
     this.addToCollisions();
@@ -19,6 +19,7 @@ export default class Meteor extends Element {
   takeHit(enemy) {
     this.health -= enemy.damage;
     if (this.health <= 0) this.destroy();
+    console.log(this.health);
   }
   tick() {
     this.move();
