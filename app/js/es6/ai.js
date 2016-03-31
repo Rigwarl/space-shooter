@@ -82,6 +82,7 @@ function checkAction(enemy, action, from, to) {
   const newEnemy = copy(enemy);
   const multi = steps / to;
   let result = 0;
+  const veryOldDist = collisions.getDistance(newEnemy, targetMap.get(from + 1));
 
   for (let i = from + 1; i <= to; i++) {
     const targ = targetMap.get(i);
@@ -100,7 +101,14 @@ function checkAction(enemy, action, from, to) {
     result += checkTarget(newEnemy, targ, dist, oldDist);
   }
 
-  return (result || action.multi * 0.9) * multi;
+  if (!result) {
+    if (action.up && (collisions.getDistance(newEnemy, targetMap.get(to)) < veryOldDist)) {
+      result += 0.5;
+    }
+    result += action.multi;
+  }
+
+  return result * multi;
 }
 
 function checkTarget(enemy, targ, dist, oldDist) {
@@ -122,7 +130,7 @@ function checkTarget(enemy, targ, dist, oldDist) {
 }
 
 function checkFire(enemy) {
-  if (collisions.getDistance(enemy, target) > 420) {
+  if (collisions.getDistance(enemy, target) > 450) {
     return false;
   }
 
