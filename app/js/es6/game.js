@@ -1,6 +1,7 @@
 import collisions from './collisions.js';
 import camera from './camera.js';
 import Hero from './elements/hero.js';
+import Enemy from './elements/enemy.js';
 import Meteor from './elements/meteor.js';
 import Target from './elements/target.js';
 import ai from './ai.js';
@@ -31,16 +32,18 @@ function start() {
   };
   ls = new createjs.Container();
   hero = new Hero({ ss, x: lb.width / 2, y: lb.height / 2 });
+  const enemy = new Enemy({ ss, x: 300, y: 300 });
 
   stage.addChild(ls);
   hero.addTo(ls);
-  ls.addChild(new Target({
-    ss,
-    x: 800,
-    y: 800,
-    vY: 1,
-    vX: 1,
-  }).el);
+  enemy.addTo(ls);
+  // ls.addChild(new Target({
+  //   ss,
+  //   x: 800,
+  //   y: 800,
+  //   vY: 1,
+  //   vX: 1,
+  // }).el);
 
   for (let i = 0; i < 20; i++) createMeteor();
 }

@@ -17,7 +17,7 @@ export default class Laser extends Element {
 
     this.vX = args.vX - Math.sin((this.rotation) * Math.PI / -180) * speed;
     this.vY = args.vY - Math.cos((this.rotation) * Math.PI / -180) * speed;
-    this.radius = 1;
+    this.radius = 3;
 
     this.addToCollisions();
     this.el.addEventListener('tick', () => this.tick());

@@ -1,45 +1,19 @@
-import Element from './element.js';
-import Laser from './laser.js';
-//import actions from '../actions.js';
+import Ship from './ship.js';
+import actions from '../actions.js';
 
-const CONFIG = {
-  speed: 1,
-  rotSpeed: 0.7,
-  inertia: 0.94,
-  rotInertia: 0.85,
-};
-
-export default class Hero extends Element {
+export default class Hero extends Ship {
   constructor(args) {
     args.body = 'playerShip1_orange';
+    args.health = 100;
     super(args);
 
-    this.damage = new createjs.Sprite(args.ss, 'playerShip1_damage1').set({ visible: false });
-    this.el.addChild(this.damage);
-
     this.createFire();
-    this.createProps();
-    this.addToCollisions();
-    this.addToAi();
 
-    this.el.addEventListener('tick', () => this.tick());
-  }
-  createProps() {
-    this.maxHealth = 100;
-    this.health = this.maxHealth;
-    this.radius = 44;
-
-    this.heading = 0;
-    this.thrust = 0;
-    this.weaponCd = 0;
-    this.firing = false;
-
-    this.rotation = 0;
-    this.vRot = 0;
-    this.vX = 0;
-    this.vY = 0;
+    this.damageSkin = new createjs.Sprite(args.ss, 'playerShip1_damage1').set({ visible: false });
+    this.el.addChild(this.damageSkin);
   }
   takeHit(enemy) {
+    console.log('hero take ' + enemy.damage);
     this.changeHealth(-enemy.damage);
   }
   changeHealth(amount) {
@@ -57,17 +31,17 @@ export default class Hero extends Element {
   }
   showDamage(amount) {
     if (amount === 0) {
-      this.damage.visible = false;
+      this.damageSkin.visible = false;
     } else {
-      this.damage.visible = true;
-      createjs.Tween.get(this.damage, { override: true })
+      this.damageSkin.visible = true;
+      createjs.Tween.get(this.damageSkin, { override: true })
         .to({
           alpha: 0.7,
         }, 200, createjs.Ease.backInOut)
         .to({
           alpha: 1,
         }, 200, createjs.Ease.backInOut);
-      this.damage.gotoAndStop(`playerShip1_damage${amount}`);
+      this.damageSkin.gotoAndStop(`playerShip1_damage${amount}`);
     }
   }
   createFire() {
@@ -85,20 +59,6 @@ export default class Hero extends Element {
       scaleY: 0,
     });
     this.el.addChildAt(this.fireLeft, this.fireRight, 0);
-  }
-  fireWeapon() {
-    if (!this.firing || this.weaponCd > 0) return;
-    const laser = new Laser({
-      ss: this.ss,
-      x: this.x - 1.6 * this.radius * Math.sin(this.rotation * Math.PI / -180),
-      y: this.y - 1.6 * this.radius * Math.cos(this.rotation * Math.PI / -180),
-      rotation: this.rotation,
-      vX: this.vX,
-      vY: this.vY,
-    });
-
-    this.weaponCd = 8;
-    this.el.parent.addChild(laser.el);
   }
   animateFire() {
     let leftTo = 0;
@@ -118,40 +78,9 @@ export default class Hero extends Element {
     createjs.Tween.get(this.fireRight, { override: true }).to({ scaleY: rightTo }, 300);
     createjs.Tween.get(this.fireLeft, { override: true }).to({ scaleY: leftTo }, 300);
   }
-  calcMove() {
-    this.vRot += this.heading * CONFIG.rotSpeed;
-    this.vRot *= CONFIG.rotInertia;
-
-    const ratioX = Math.sin(this.rotation * Math.PI / -180) * this.thrust;
-    const ratioY = Math.cos(this.rotation * Math.PI / -180) * this.thrust;
-    const diffX = ratioX * CONFIG.speed;
-    const diffY = ratioY * CONFIG.speed;
-
-    this.vX += diffX;
-    this.vY += diffY;
-
-    this.vX = this.vX * CONFIG.inertia;
-    this.vY = this.vY * CONFIG.inertia;
-  }
-  setActions(act) {
-    this.thrust = 0;
-    this.heading = 0;
-    this.firing = false;
-
-    if (act.up) this.thrust = -1;
-    if (act.down) this.thrust = 0.5;
-    if (act.left) this.heading = -1;
-    if (act.right) this.heading = 1;
-    if (act.fire) this.firing = true;
-  }
   tick() {
-    this.weaponCd--;
-
-    //this.setActions(actions.get());
-    this.calcMove();
-    this.move();
-
+    this.setActions(actions.get());
+    super.tick();
     this.animateFire();
-    this.fireWeapon();
   }
 }

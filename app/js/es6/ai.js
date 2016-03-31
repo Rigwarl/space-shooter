@@ -4,8 +4,8 @@ const meteors = new Set();
 const enemies = new Set();
 const map = new Map();
 const enemiesMap = new Map();
-const steps = 40;
-const step = 20;
+const steps = 30;
+const step = 15;
 let lb;
 let target;
 const targetMap = new Map();
@@ -25,13 +25,13 @@ const actions = [
 export default {
   add(item) {
     if (item.constructor.name === 'Meteor') meteors.add(item);
-    if (item.constructor.name === 'Hero') enemies.add(item);
-    if (item.constructor.name === 'Target') target = item;
+    if (item.constructor.name === 'Hero') target = item;
+    if (item.constructor.name === 'Enemy') enemies.add(item);
   },
   remove(item) {
     if (item.constructor.name === 'Meteor') meteors.delete(item);
-    if (item.constructor.name === 'Hero') enemies.delete(item);
-    if (item.constructor.name === 'Target') target = null;
+    //if (item.constructor.name === 'Hero') target = null;
+    if (item.constructor.name === 'Enemy') enemies.delete(item);
   },
   setActions(levelBounds) {
     lb = levelBounds;
@@ -103,7 +103,7 @@ function checkAction(enemy, action, from, to) {
 
   if (!result) {
     if (action.up && (collisions.getDistance(newEnemy, targetMap.get(to)) < veryOldDist)) {
-      result += 0.5;
+      result += 1;
     }
     result += action.multi;
   }
