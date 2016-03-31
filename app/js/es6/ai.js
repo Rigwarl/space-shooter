@@ -95,7 +95,7 @@ function checkAction(enemy, action, from, to) {
       }
     }
     if (collisions.checkFrameHit(newEnemy, lb, true)) {
-      result -= 0.3;
+      result -= 0.6;
     }
     result += checkTarget(newEnemy, targ, dist, oldDist);
   }
@@ -113,6 +113,7 @@ function checkTarget(enemy, targ, dist, oldDist) {
 
   if (angle < 5) return 0.9;
   if (angle < 10) return 0.5;
+  if (angle < 15) return 0.1;
 
   if (dist < oldDist) {
     return 0.03;
@@ -178,6 +179,8 @@ function initMaps() {
   collisions.checkFrameHit(newTarg, lb, true);
   moveMeteor(newTarg);
   collisions.checkFrameHit(newTarg, lb, true);
+  moveMeteor(newTarg);
+  collisions.checkFrameHit(newTarg, lb, true);
 
   targetMap.set(0, newTarg);
 
@@ -205,6 +208,7 @@ function initMaps() {
 function calcMeteors() {
   for (let i = 1; i <= steps; i++) {
     for (const meteor of map.get(i - 1)) {
+      if (meteor.destroyed) continue;
       const newMeteor = copy(meteor);
 
       moveMeteor(newMeteor);
@@ -218,8 +222,8 @@ function calcMeteors() {
 function calcMeteor(i, meteor) {
   for (const another of map.get(i)) {
     if (collisions.checkPair(meteor, another)) {
-      map.get(i).delete(another);
-      map.get(i).delete(meteor);
+      meteor.destroyed = true;
+      another.destroyed = true;
     }
   }
 }
