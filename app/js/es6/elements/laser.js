@@ -17,7 +17,7 @@ export default class Laser extends Element {
 
     this.vX = args.vX - Math.sin((this.rotation) * Math.PI / -180) * speed;
     this.vY = args.vY - Math.cos((this.rotation) * Math.PI / -180) * speed;
-    this.radius = 3;
+    this.radius = 4;
 
     this.addToCollisions();
     this.el.addEventListener('tick', () => this.tick());
@@ -37,12 +37,18 @@ export default class Laser extends Element {
     }
   }
   explode(enemy) {
+    let vX = 0;
+    let vY = 0;
+    if (enemy.constructor.name !== 'Laser') {
+      vX = enemy.vX;
+      vY = enemy.vY;
+    }
     const explosion = new Explosion({
       ss: this.ss,
       x: this.el.x,
       y: this.el.y,
-      vX: enemy.vX,
-      vY: enemy.vY,
+      vX,
+      vY,
     });
 
     this.el.parent.addChild(explosion.el);
