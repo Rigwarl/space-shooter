@@ -11,7 +11,7 @@ const CONFIG = {
 export default class Hero extends Ship {
   constructor(args) {
     args.body = 'playerShip1_orange';
-    args.health = 150;
+    args.health = 200;
     super(args);
 
     this.weaponTimer = 10;
@@ -22,7 +22,6 @@ export default class Hero extends Ship {
     this.el.addChild(this.damageSkin);
   }
   takeHit(enemy) {
-    console.log('hero take ' + enemy.damage);
     this.changeHealth(-enemy.damage);
   }
   changeHealth(amount) {

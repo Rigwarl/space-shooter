@@ -32,11 +32,15 @@ function start() {
   };
   ls = new createjs.Container();
   hero = new Hero({ ss, x: lb.width / 2, y: lb.height / 2 });
-  const enemy = new Enemy({ ss, x: 300, y: 300 });
 
   stage.addChild(ls);
   hero.addTo(ls);
-  enemy.addTo(ls);
+  ls.addChild(
+    new Enemy({ ss, x: lb.width - 300, y: lb.height - 300 }).el,
+    new Enemy({ ss, x: 300, y: 300 }).el,
+    new Enemy({ ss, x: 1500, y: 300 }).el,
+    new Enemy({ ss, x: 300, y: 1500 }).el
+  );
   // ls.addChild(new Target({
   //   ss,
   //   x: 800,
